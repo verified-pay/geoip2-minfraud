@@ -9,220 +9,17 @@ package geoip2
 
 import (
 	"fmt"
+	"github.com/verified-pay/geoip2-minfraud/model"
 	"net"
 
 	"github.com/oschwald/maxminddb-golang"
-)
-
-// The Enterprise struct corresponds to the data in the GeoIP2 Enterprise
-// database.
-type Enterprise struct {
-	City struct {
-		Confidence uint8             `maxminddb:"confidence"`
-		GeoNameID  uint              `maxminddb:"geoname_id"`
-		Names      map[string]string `maxminddb:"names"`
-	} `maxminddb:"city"`
-	Continent struct {
-		Code      string            `maxminddb:"code"`
-		GeoNameID uint              `maxminddb:"geoname_id"`
-		Names     map[string]string `maxminddb:"names"`
-	} `maxminddb:"continent"`
-	Country struct {
-		GeoNameID         uint              `maxminddb:"geoname_id"`
-		IsoCode           string            `maxminddb:"iso_code"`
-		Names             map[string]string `maxminddb:"names"`
-		Confidence        uint8             `maxminddb:"confidence"`
-		IsInEuropeanUnion bool              `maxminddb:"is_in_european_union"`
-	} `maxminddb:"country"`
-	Location struct {
-		AccuracyRadius uint16  `maxminddb:"accuracy_radius"`
-		Latitude       float64 `maxminddb:"latitude"`
-		Longitude      float64 `maxminddb:"longitude"`
-		MetroCode      uint    `maxminddb:"metro_code"`
-		TimeZone       string  `maxminddb:"time_zone"`
-	} `maxminddb:"location"`
-	Postal struct {
-		Code       string `maxminddb:"code"`
-		Confidence uint8  `maxminddb:"confidence"`
-	} `maxminddb:"postal"`
-	RegisteredCountry struct {
-		GeoNameID         uint              `maxminddb:"geoname_id"`
-		IsoCode           string            `maxminddb:"iso_code"`
-		Names             map[string]string `maxminddb:"names"`
-		Confidence        uint8             `maxminddb:"confidence"`
-		IsInEuropeanUnion bool              `maxminddb:"is_in_european_union"`
-	} `maxminddb:"registered_country"`
-	RepresentedCountry struct {
-		GeoNameID         uint              `maxminddb:"geoname_id"`
-		IsInEuropeanUnion bool              `maxminddb:"is_in_european_union"`
-		IsoCode           string            `maxminddb:"iso_code"`
-		Names             map[string]string `maxminddb:"names"`
-		Type              string            `maxminddb:"type"`
-	} `maxminddb:"represented_country"`
-	Subdivisions []struct {
-		Confidence uint8             `maxminddb:"confidence"`
-		GeoNameID  uint              `maxminddb:"geoname_id"`
-		IsoCode    string            `maxminddb:"iso_code"`
-		Names      map[string]string `maxminddb:"names"`
-	} `maxminddb:"subdivisions"`
-	Traits struct {
-		AutonomousSystemNumber       uint    `maxminddb:"autonomous_system_number"`
-		AutonomousSystemOrganization string  `maxminddb:"autonomous_system_organization"`
-		ConnectionType               string  `maxminddb:"connection_type"`
-		Domain                       string  `maxminddb:"domain"`
-		IsAnonymousProxy             bool    `maxminddb:"is_anonymous_proxy"`
-		IsLegitimateProxy            bool    `maxminddb:"is_legitimate_proxy"`
-		IsSatelliteProvider          bool    `maxminddb:"is_satellite_provider"`
-		ISP                          string  `maxminddb:"isp"`
-		MobileCountryCode            string  `maxminddb:"mobile_country_code"`
-		MobileNetworkCode            string  `maxminddb:"mobile_network_code"`
-		Organization                 string  `maxminddb:"organization"`
-		StaticIPScore                float64 `maxminddb:"static_ip_score"`
-		UserType                     string  `maxminddb:"user_type"`
-	} `maxminddb:"traits"`
-}
-
-// The City struct corresponds to the data in the GeoIP2/GeoLite2 City
-// databases.
-type City struct {
-	City struct {
-		GeoNameID uint              `maxminddb:"geoname_id"`
-		Names     map[string]string `maxminddb:"names"`
-	} `maxminddb:"city"`
-	Continent struct {
-		Code      string            `maxminddb:"code"`
-		GeoNameID uint              `maxminddb:"geoname_id"`
-		Names     map[string]string `maxminddb:"names"`
-	} `maxminddb:"continent"`
-	Country struct {
-		GeoNameID         uint              `maxminddb:"geoname_id"`
-		IsInEuropeanUnion bool              `maxminddb:"is_in_european_union"`
-		IsoCode           string            `maxminddb:"iso_code"`
-		Names             map[string]string `maxminddb:"names"`
-	} `maxminddb:"country"`
-	Location struct {
-		AccuracyRadius uint16  `maxminddb:"accuracy_radius"`
-		Latitude       float64 `maxminddb:"latitude"`
-		Longitude      float64 `maxminddb:"longitude"`
-		MetroCode      uint    `maxminddb:"metro_code"`
-		TimeZone       string  `maxminddb:"time_zone"`
-	} `maxminddb:"location"`
-	Postal struct {
-		Code string `maxminddb:"code"`
-	} `maxminddb:"postal"`
-	RegisteredCountry struct {
-		GeoNameID         uint              `maxminddb:"geoname_id"`
-		IsInEuropeanUnion bool              `maxminddb:"is_in_european_union"`
-		IsoCode           string            `maxminddb:"iso_code"`
-		Names             map[string]string `maxminddb:"names"`
-	} `maxminddb:"registered_country"`
-	RepresentedCountry struct {
-		GeoNameID         uint              `maxminddb:"geoname_id"`
-		IsInEuropeanUnion bool              `maxminddb:"is_in_european_union"`
-		IsoCode           string            `maxminddb:"iso_code"`
-		Names             map[string]string `maxminddb:"names"`
-		Type              string            `maxminddb:"type"`
-	} `maxminddb:"represented_country"`
-	Subdivisions []struct {
-		GeoNameID uint              `maxminddb:"geoname_id"`
-		IsoCode   string            `maxminddb:"iso_code"`
-		Names     map[string]string `maxminddb:"names"`
-	} `maxminddb:"subdivisions"`
-	Traits struct {
-		IsAnonymousProxy    bool `maxminddb:"is_anonymous_proxy"`
-		IsSatelliteProvider bool `maxminddb:"is_satellite_provider"`
-	} `maxminddb:"traits"`
-}
-
-// The Country struct corresponds to the data in the GeoIP2/GeoLite2
-// Country databases.
-type Country struct {
-	Continent struct {
-		Code      string            `maxminddb:"code"`
-		GeoNameID uint              `maxminddb:"geoname_id"`
-		Names     map[string]string `maxminddb:"names"`
-	} `maxminddb:"continent"`
-	Country struct {
-		GeoNameID         uint              `maxminddb:"geoname_id"`
-		IsInEuropeanUnion bool              `maxminddb:"is_in_european_union"`
-		IsoCode           string            `maxminddb:"iso_code"`
-		Names             map[string]string `maxminddb:"names"`
-	} `maxminddb:"country"`
-	RegisteredCountry struct {
-		GeoNameID         uint              `maxminddb:"geoname_id"`
-		IsInEuropeanUnion bool              `maxminddb:"is_in_european_union"`
-		IsoCode           string            `maxminddb:"iso_code"`
-		Names             map[string]string `maxminddb:"names"`
-	} `maxminddb:"registered_country"`
-	RepresentedCountry struct {
-		GeoNameID         uint              `maxminddb:"geoname_id"`
-		IsInEuropeanUnion bool              `maxminddb:"is_in_european_union"`
-		IsoCode           string            `maxminddb:"iso_code"`
-		Names             map[string]string `maxminddb:"names"`
-		Type              string            `maxminddb:"type"`
-	} `maxminddb:"represented_country"`
-	Traits struct {
-		IsAnonymousProxy    bool `maxminddb:"is_anonymous_proxy"`
-		IsSatelliteProvider bool `maxminddb:"is_satellite_provider"`
-	} `maxminddb:"traits"`
-}
-
-// The AnonymousIP struct corresponds to the data in the GeoIP2
-// Anonymous IP database.
-type AnonymousIP struct {
-	IsAnonymous        bool `maxminddb:"is_anonymous"`
-	IsAnonymousVPN     bool `maxminddb:"is_anonymous_vpn"`
-	IsHostingProvider  bool `maxminddb:"is_hosting_provider"`
-	IsPublicProxy      bool `maxminddb:"is_public_proxy"`
-	IsResidentialProxy bool `maxminddb:"is_residential_proxy"`
-	IsTorExitNode      bool `maxminddb:"is_tor_exit_node"`
-}
-
-// The ASN struct corresponds to the data in the GeoLite2 ASN database.
-type ASN struct {
-	AutonomousSystemNumber       uint   `maxminddb:"autonomous_system_number"`
-	AutonomousSystemOrganization string `maxminddb:"autonomous_system_organization"`
-}
-
-// The ConnectionType struct corresponds to the data in the GeoIP2
-// Connection-Type database.
-type ConnectionType struct {
-	ConnectionType string `maxminddb:"connection_type"`
-}
-
-// The Domain struct corresponds to the data in the GeoIP2 Domain database.
-type Domain struct {
-	Domain string `maxminddb:"domain"`
-}
-
-// The ISP struct corresponds to the data in the GeoIP2 ISP database.
-type ISP struct {
-	AutonomousSystemNumber       uint   `maxminddb:"autonomous_system_number"`
-	AutonomousSystemOrganization string `maxminddb:"autonomous_system_organization"`
-	ISP                          string `maxminddb:"isp"`
-	MobileCountryCode            string `maxminddb:"mobile_country_code"`
-	MobileNetworkCode            string `maxminddb:"mobile_network_code"`
-	Organization                 string `maxminddb:"organization"`
-}
-
-type databaseType int
-
-const (
-	isAnonymousIP = 1 << iota
-	isASN
-	isCity
-	isConnectionType
-	isCountry
-	isDomain
-	isEnterprise
-	isISP
 )
 
 // Reader holds the maxminddb.Reader struct. It can be created using the
 // Open and FromBytes functions.
 type Reader struct {
 	mmdbReader   *maxminddb.Reader
-	databaseType databaseType
+	databaseType model.DatabaseType
 }
 
 // InvalidMethodError is returned when a lookup method is called on a
@@ -274,13 +71,13 @@ func FromBytes(bytes []byte) (*Reader, error) {
 	return &Reader{reader, dbType}, err
 }
 
-func getDBType(reader *maxminddb.Reader) (databaseType, error) {
+func getDBType(reader *maxminddb.Reader) (model.DatabaseType, error) {
 	switch reader.Metadata.DatabaseType {
 	case "GeoIP2-Anonymous-IP":
-		return isAnonymousIP, nil
+		return model.IsAnonymousIP, nil
 	case "DBIP-ASN-Lite (compat=GeoLite2-ASN)",
 		"GeoLite2-ASN":
-		return isASN, nil
+		return model.IsASN, nil
 	// We allow City lookups on Country for back compat
 	case "DBIP-City-Lite",
 		"DBIP-Country-Lite",
@@ -296,17 +93,17 @@ func getDBType(reader *maxminddb.Reader) (databaseType, error) {
 		"GeoIP2-Precision-City",
 		"GeoLite2-Country",
 		"GeoIP2-Country":
-		return isCity | isCountry, nil
+		return model.IsCity | model.IsCountry, nil
 	case "GeoIP2-Connection-Type":
-		return isConnectionType, nil
+		return model.IsConnectionType, nil
 	case "GeoIP2-Domain":
-		return isDomain, nil
+		return model.IsDomain, nil
 	case "DBIP-ISP (compat=Enterprise)",
 		"DBIP-Location-ISP (compat=Enterprise)",
 		"GeoIP2-Enterprise":
-		return isEnterprise | isCity | isCountry, nil
+		return model.IsEnterprise | model.IsCity | model.IsCountry, nil
 	case "GeoIP2-ISP", "GeoIP2-Precision-ISP":
-		return isISP | isASN, nil
+		return model.IsISP | model.IsASN, nil
 	default:
 		return 0, UnknownDatabaseTypeError{reader.Metadata.DatabaseType}
 	}
@@ -315,11 +112,11 @@ func getDBType(reader *maxminddb.Reader) (databaseType, error) {
 // Enterprise takes an IP address as a net.IP struct and returns an Enterprise
 // struct and/or an error. This is intended to be used with the GeoIP2
 // Enterprise database.
-func (r *Reader) Enterprise(ipAddress net.IP) (*Enterprise, error) {
-	if isEnterprise&r.databaseType == 0 {
+func (r *Reader) Enterprise(ipAddress net.IP) (*model.Enterprise, error) {
+	if model.IsEnterprise&r.databaseType == 0 {
 		return nil, InvalidMethodError{"Enterprise", r.Metadata().DatabaseType}
 	}
-	var enterprise Enterprise
+	var enterprise model.Enterprise
 	err := r.mmdbReader.Lookup(ipAddress, &enterprise)
 	return &enterprise, err
 }
@@ -327,11 +124,11 @@ func (r *Reader) Enterprise(ipAddress net.IP) (*Enterprise, error) {
 // City takes an IP address as a net.IP struct and returns a City struct
 // and/or an error. Although this can be used with other databases, this
 // method generally should be used with the GeoIP2 or GeoLite2 City databases.
-func (r *Reader) City(ipAddress net.IP) (*City, error) {
-	if isCity&r.databaseType == 0 {
+func (r *Reader) City(ipAddress net.IP) (*model.City, error) {
+	if model.IsCity&r.databaseType == 0 {
 		return nil, InvalidMethodError{"City", r.Metadata().DatabaseType}
 	}
-	var city City
+	var city model.City
 	err := r.mmdbReader.Lookup(ipAddress, &city)
 	return &city, err
 }
@@ -340,66 +137,66 @@ func (r *Reader) City(ipAddress net.IP) (*City, error) {
 // and/or an error. Although this can be used with other databases, this
 // method generally should be used with the GeoIP2 or GeoLite2 Country
 // databases.
-func (r *Reader) Country(ipAddress net.IP) (*Country, error) {
-	if isCountry&r.databaseType == 0 {
+func (r *Reader) Country(ipAddress net.IP) (*model.Country, error) {
+	if model.IsCountry&r.databaseType == 0 {
 		return nil, InvalidMethodError{"Country", r.Metadata().DatabaseType}
 	}
-	var country Country
+	var country model.Country
 	err := r.mmdbReader.Lookup(ipAddress, &country)
 	return &country, err
 }
 
 // AnonymousIP takes an IP address as a net.IP struct and returns a
 // AnonymousIP struct and/or an error.
-func (r *Reader) AnonymousIP(ipAddress net.IP) (*AnonymousIP, error) {
-	if isAnonymousIP&r.databaseType == 0 {
+func (r *Reader) AnonymousIP(ipAddress net.IP) (*model.AnonymousIP, error) {
+	if model.IsAnonymousIP&r.databaseType == 0 {
 		return nil, InvalidMethodError{"AnonymousIP", r.Metadata().DatabaseType}
 	}
-	var anonIP AnonymousIP
+	var anonIP model.AnonymousIP
 	err := r.mmdbReader.Lookup(ipAddress, &anonIP)
 	return &anonIP, err
 }
 
 // ASN takes an IP address as a net.IP struct and returns a ASN struct and/or
 // an error.
-func (r *Reader) ASN(ipAddress net.IP) (*ASN, error) {
-	if isASN&r.databaseType == 0 {
+func (r *Reader) ASN(ipAddress net.IP) (*model.ASN, error) {
+	if model.IsASN&r.databaseType == 0 {
 		return nil, InvalidMethodError{"ASN", r.Metadata().DatabaseType}
 	}
-	var val ASN
+	var val model.ASN
 	err := r.mmdbReader.Lookup(ipAddress, &val)
 	return &val, err
 }
 
 // ConnectionType takes an IP address as a net.IP struct and returns a
 // ConnectionType struct and/or an error.
-func (r *Reader) ConnectionType(ipAddress net.IP) (*ConnectionType, error) {
-	if isConnectionType&r.databaseType == 0 {
+func (r *Reader) ConnectionType(ipAddress net.IP) (*model.ConnectionType, error) {
+	if model.IsConnectionType&r.databaseType == 0 {
 		return nil, InvalidMethodError{"ConnectionType", r.Metadata().DatabaseType}
 	}
-	var val ConnectionType
+	var val model.ConnectionType
 	err := r.mmdbReader.Lookup(ipAddress, &val)
 	return &val, err
 }
 
 // Domain takes an IP address as a net.IP struct and returns a
 // Domain struct and/or an error.
-func (r *Reader) Domain(ipAddress net.IP) (*Domain, error) {
-	if isDomain&r.databaseType == 0 {
+func (r *Reader) Domain(ipAddress net.IP) (*model.Domain, error) {
+	if model.IsDomain&r.databaseType == 0 {
 		return nil, InvalidMethodError{"Domain", r.Metadata().DatabaseType}
 	}
-	var val Domain
+	var val model.Domain
 	err := r.mmdbReader.Lookup(ipAddress, &val)
 	return &val, err
 }
 
 // ISP takes an IP address as a net.IP struct and returns a ISP struct and/or
 // an error.
-func (r *Reader) ISP(ipAddress net.IP) (*ISP, error) {
-	if isISP&r.databaseType == 0 {
+func (r *Reader) ISP(ipAddress net.IP) (*model.ISP, error) {
+	if model.IsISP&r.databaseType == 0 {
 		return nil, InvalidMethodError{"ISP", r.Metadata().DatabaseType}
 	}
-	var val ISP
+	var val model.ISP
 	err := r.mmdbReader.Lookup(ipAddress, &val)
 	return &val, err
 }

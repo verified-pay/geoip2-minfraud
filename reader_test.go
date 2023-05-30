@@ -1,6 +1,7 @@
 package geoip2
 
 import (
+	"github.com/verified-pay/geoip2-minfraud/model"
 	"math/rand"
 	"net"
 	"testing"
@@ -241,7 +242,7 @@ func TestISP(t *testing.T) {
 }
 
 // This ensures the compiler does not optimize away the function call.
-var cityResult *City
+var cityResult *model.City
 
 func BenchmarkCity(b *testing.B) {
 	db, err := Open("GeoLite2-City.mmdb")
@@ -253,7 +254,7 @@ func BenchmarkCity(b *testing.B) {
 	//nolint:gosec // this is just a benchmark
 	r := rand.New(rand.NewSource(0))
 
-	var city *City
+	var city *model.City
 
 	ip := make(net.IP, 4)
 	for i := 0; i < b.N; i++ {
@@ -267,7 +268,7 @@ func BenchmarkCity(b *testing.B) {
 }
 
 // This ensures the compiler does not optimize away the function call.
-var asnResult *ASN
+var asnResult *model.ASN
 
 func BenchmarkASN(b *testing.B) {
 	db, err := Open("GeoLite2-ASN.mmdb")
@@ -279,7 +280,7 @@ func BenchmarkASN(b *testing.B) {
 	//nolint:gosec // this is just a benchmark
 	r := rand.New(rand.NewSource(0))
 
-	var asn *ASN
+	var asn *model.ASN
 
 	ip := make(net.IP, 4)
 	for i := 0; i < b.N; i++ {
