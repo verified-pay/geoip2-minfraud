@@ -1,0 +1,112 @@
+package model
+
+import "time"
+
+type MinfraudReq struct {
+	Billing      *BillingReq        `json:"billing"`
+	Shipping     *ShippingReq       `json:"shipping"`
+	CreditCard   *CreditCardReq     `json:"credit_card"`
+	CustomInputs *CustomInputsReq   `json:"custom_inputs"`
+	Account      *AccountReq        `json:"account"`
+	Device       *DeviceReq         `json:"device"`
+	Email        *EmailReq          `json:"email"`
+	Event        *EventReq          `json:"event"`
+	Order        *OrderReq          `json:"order"`
+	Payment      *PaymentReq        `json:"payment"`
+	ShoppingCart []*ShoppingCartReq `json:"shopping_cart"`
+}
+
+type BillingReq struct {
+	Address          string `json:"address"`
+	Address2         string `json:"address_2"`
+	City             string `json:"city"`
+	Company          string `json:"company"`
+	Country          string `json:"country"`
+	FirstName        string `json:"first_name"`
+	LastName         string `json:"last_name"`
+	PhoneCountryCode string `json:"phone_country_code"` // 1
+	PhoneNumber      string `json:"phone_number"`       // 999-999-9999
+	Postal           string `json:"postal"`
+	Region           string `json:"region"`
+}
+
+type ShippingReq struct {
+	Address          string `json:"address"`
+	Address2         string `json:"address_2"`
+	City             string `json:"city"`
+	Company          string `json:"company"`
+	Country          string `json:"country"`
+	DeliverySpeed    string `json:"delivery_speed"`
+	FirstName        string `json:"first_name"`
+	LastName         string `json:"last_name"`
+	PhoneCountryCode string `json:"phone_country_code"` // 1
+	PhoneNumber      string `json:"phone_number"`       // 999-999-9999
+	Postal           string `json:"postal"`
+	Region           string `json:"region"`
+}
+
+type CreditCardReq struct {
+	AvsResult             string `json:"avs_result"`
+	BankName              string `json:"bank_name"`
+	BankPhoneCountryCode  string `json:"bank_phone_country_code"` // 1
+	BankPhoneNumber       string `json:"bank_phone_number"`       // 999-999-9999
+	Country               string `json:"country"`
+	CvvResult             string `json:"cvv_result"`
+	IssuerIdNumber        string `json:"issuer_id_number"`
+	LastDigits            string `json:"last_digits"` // last 4
+	Token                 string `json:"token"`
+	Was3dSecureSuccessful bool   `json:"was_3d_secure_successful"`
+}
+
+// CustomInputsReq holds additional fields to be sent as JSON key-value pairs.
+type CustomInputsReq map[string]interface{}
+
+type AccountReq struct {
+	UserID      string `json:"user_id"`
+	UsernameMD5 string `json:"username_md5"`
+}
+
+type DeviceReq struct {
+	AcceptLanguage string  `json:"accept_language"`
+	IPAddress      string  `json:"ip_address"`
+	SessionAge     float32 `json:"session_age"`
+	SessionID      string  `json:"session_id"`
+	UserAgent      string  `json:"user_agent"`
+}
+
+type EmailReq struct {
+	Address string `json:"address"` // plain or MD5
+	//AddressMD5 string `json:"address_md5"`
+	Domain string `json:"domain"`
+}
+
+type EventReq struct {
+	ShopID        string    `json:"shop_id"`
+	Time          time.Time `json:"time"`
+	TransactionID string    `json:"transaction_id"`
+	Type          string    `json:"type"`
+}
+
+type OrderReq struct {
+	AffiliateID    string  `json:"affiliate_id"`
+	Amount         float32 `json:"amount"`
+	Currency       string  `json:"currency"`
+	DiscountCode   string  `json:"discount_code"`
+	HasGiftMessage bool    `json:"has_gift_message"`
+	IsGift         bool    `json:"is_gift"`
+	ReferrerUri    string  `json:"referrer_uri"`
+	SubaffiliateID string  `json:"subaffiliate_id"`
+}
+
+type PaymentReq struct {
+	DeclineCode   string `json:"decline_code"`
+	Processor     string `json:"processor"`
+	WasAuthorized bool   `json:"was_authorized"`
+}
+
+type ShoppingCartReq struct {
+	Category string  `json:"category"`
+	ItemID   string  `json:"item_id"`
+	Price    float32 `json:"price"`
+	Quantity uint32  `json:"quantity"`
+}
