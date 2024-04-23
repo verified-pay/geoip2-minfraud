@@ -36,7 +36,7 @@ type ShippingReq struct {
 	City             string `json:"city"`
 	Company          string `json:"company,omitempty"`
 	Country          string `json:"country"`
-	DeliverySpeed    string `json:"delivery_speed"`
+	DeliverySpeed    string `json:"delivery_speed,omitempty"`
 	FirstName        string `json:"first_name"`
 	LastName         string `json:"last_name"`
 	PhoneCountryCode string `json:"phone_country_code,omitempty"` // 1
@@ -81,7 +81,7 @@ type EmailReq struct {
 }
 
 type EventReq struct {
-	ShopID        string    `json:"shop_id"`
+	ShopID        string    `json:"shop_id,omitempty"`
 	Time          time.Time `json:"time"`
 	TransactionID string    `json:"transaction_id"`
 	Type          string    `json:"type"`
