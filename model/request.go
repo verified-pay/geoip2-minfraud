@@ -18,66 +18,66 @@ type MinfraudReq struct {
 
 type BillingReq struct {
 	Address          string `json:"address"`
-	Address2         string `json:"address_2"`
+	Address2         string `json:"address_2,omitempty"`
 	City             string `json:"city"`
-	Company          string `json:"company"`
+	Company          string `json:"company,omitempty"`
 	Country          string `json:"country"`
 	FirstName        string `json:"first_name"`
 	LastName         string `json:"last_name"`
-	PhoneCountryCode string `json:"phone_country_code"` // 1
-	PhoneNumber      string `json:"phone_number"`       // 999-999-9999
+	PhoneCountryCode string `json:"phone_country_code,omitempty"` // 1
+	PhoneNumber      string `json:"phone_number,omitempty"`       // 999-999-9999
 	Postal           string `json:"postal"`
-	Region           string `json:"region"`
+	Region           string `json:"region,omitempty"`
 }
 
 type ShippingReq struct {
 	Address          string `json:"address"`
-	Address2         string `json:"address_2"`
+	Address2         string `json:"address_2,omitempty"`
 	City             string `json:"city"`
-	Company          string `json:"company"`
+	Company          string `json:"company,omitempty"`
 	Country          string `json:"country"`
 	DeliverySpeed    string `json:"delivery_speed"`
 	FirstName        string `json:"first_name"`
 	LastName         string `json:"last_name"`
-	PhoneCountryCode string `json:"phone_country_code"` // 1
-	PhoneNumber      string `json:"phone_number"`       // 999-999-9999
+	PhoneCountryCode string `json:"phone_country_code,omitempty"` // 1
+	PhoneNumber      string `json:"phone_number,omitempty"`       // 999-999-9999
 	Postal           string `json:"postal"`
-	Region           string `json:"region"`
+	Region           string `json:"region,omitempty"`
 }
 
 type CreditCardReq struct {
-	AvsResult             string `json:"avs_result"`
-	BankName              string `json:"bank_name"`
-	BankPhoneCountryCode  string `json:"bank_phone_country_code"` // 1
-	BankPhoneNumber       string `json:"bank_phone_number"`       // 999-999-9999
-	Country               string `json:"country"`
-	CvvResult             string `json:"cvv_result"`
+	AvsResult             string `json:"avs_result,omitempty"`
+	BankName              string `json:"bank_name,omitempty"`
+	BankPhoneCountryCode  string `json:"bank_phone_country_code,omitempty"` // 1
+	BankPhoneNumber       string `json:"bank_phone_number,omitempty"`       // 999-999-9999
+	Country               string `json:"country,omitempty"`
+	CvvResult             string `json:"cvv_result,omitempty"`
 	IssuerIdNumber        string `json:"issuer_id_number"`
 	LastDigits            string `json:"last_digits"` // last 4
-	Token                 string `json:"token"`
-	Was3dSecureSuccessful bool   `json:"was_3d_secure_successful"`
+	Token                 string `json:"token,omitempty"`
+	Was3dSecureSuccessful bool   `json:"was_3d_secure_successful,omitempty"`
 }
 
 // CustomInputsReq holds additional fields to be sent as JSON key-value pairs.
 type CustomInputsReq map[string]interface{}
 
 type AccountReq struct {
-	UserID      string `json:"user_id"`
-	UsernameMD5 string `json:"username_md5"`
+	UserID      string `json:"user_id,omitempty"`
+	UsernameMD5 string `json:"username_md5,omitempty"`
 }
 
 type DeviceReq struct {
-	AcceptLanguage string  `json:"accept_language"`
+	AcceptLanguage string  `json:"accept_language,omitempty"`
 	IPAddress      string  `json:"ip_address"`
-	SessionAge     float32 `json:"session_age"`
-	SessionID      string  `json:"session_id"`
-	UserAgent      string  `json:"user_agent"`
+	SessionAge     float32 `json:"session_age,omitempty"`
+	SessionID      string  `json:"session_id,omitempty"`
+	UserAgent      string  `json:"user_agent,omitempty"`
 }
 
 type EmailReq struct {
 	Address string `json:"address"` // plain or MD5
 	//AddressMD5 string `json:"address_md5"`
-	Domain string `json:"domain"`
+	Domain string `json:"domain,omitempty"`
 }
 
 type EventReq struct {
@@ -88,19 +88,19 @@ type EventReq struct {
 }
 
 type OrderReq struct {
-	AffiliateID    string  `json:"affiliate_id"`
+	AffiliateID    string  `json:"affiliate_id,omitempty"`
 	Amount         float32 `json:"amount"`
 	Currency       string  `json:"currency"`
-	DiscountCode   string  `json:"discount_code"`
+	DiscountCode   string  `json:"discount_code,omitempty"`
 	HasGiftMessage bool    `json:"has_gift_message"`
 	IsGift         bool    `json:"is_gift"`
-	ReferrerUri    string  `json:"referrer_uri"`
-	SubaffiliateID string  `json:"subaffiliate_id"`
+	ReferrerUri    string  `json:"referrer_uri,omitempty"`
+	SubaffiliateID string  `json:"subaffiliate_id,omitempty"`
 }
 
 type PaymentReq struct {
-	DeclineCode   string `json:"decline_code"`
-	Processor     string `json:"processor"`
+	DeclineCode   string `json:"decline_code,omitempty"`
+	Processor     string `json:"processor,omitempty"`
 	WasAuthorized bool   `json:"was_authorized"`
 }
 
