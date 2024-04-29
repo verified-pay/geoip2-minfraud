@@ -1,6 +1,9 @@
 package model
 
-import "time"
+import (
+	"encoding/json"
+	"time"
+)
 
 type MinfraudReq struct {
 	Billing      *BillingReq        `json:"billing"`
@@ -14,6 +17,12 @@ type MinfraudReq struct {
 	Order        *OrderReq          `json:"order"`
 	Payment      *PaymentReq        `json:"payment"`
 	ShoppingCart []*ShoppingCartReq `json:"shopping_cart"`
+}
+
+// GetID returns a unique deterministic ID for this request.
+func (req *MinfraudReq) GetID() string {
+	data, _ := json.Marshal(req)
+	return getSha256(data)
 }
 
 type BillingReq struct {
