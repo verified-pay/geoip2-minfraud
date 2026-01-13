@@ -1,0 +1,33 @@
+Removed Fields/Types
+┌──────────────────────┬──────────────────────────────────────┐
+│       Location       │                Change                │
+├──────────────────────┼──────────────────────────────────────┤
+│ Score.Continent      │ Removed entirely                     │
+├──────────────────────┼──────────────────────────────────────┤
+│ Factors.Continent    │ Removed entirely                     │
+├──────────────────────┼──────────────────────────────────────┤
+│ Insights.RiskReasons │ Moved to IPAddress.RiskReasons       │
+├──────────────────────┼──────────────────────────────────────┤
+│ RiskReasonCode type  │ Removed                              │
+├──────────────────────┼──────────────────────────────────────┤
+│ RiskReason type      │ Removed (replaced with IPRiskReason) │
+└──────────────────────┴──────────────────────────────────────┘
+
+Type Changes
+┌──────────────────────────────────────────┬───────────┬──────────┐
+│                  Field                   │ Old Type  │ New Type │
+├──────────────────────────────────────────┼───────────┼──────────┤
+│ Device.Confidence                        │ uint8     │ float32  │
+├──────────────────────────────────────────┼───────────┼──────────┤
+│ BillingAddress.DistanceToIPLocation      │ float32   │ int      │
+├──────────────────────────────────────────┼───────────┼──────────┤
+│ ShippingAddress.DistanceToBillingAddress │ float32   │ int      │
+├──────────────────────────────────────────┼───────────┼──────────┤
+│ ShippingAddress.DistanceToIPLocation     │ float32   │ int      │
+└──────────────────────────────────────────┴───────────┴──────────┘
+
+Migration Notes
+- RiskReasons: Access via insights.IPAddress.RiskReasons instead of insights.RiskReasons
+- RiskReasonCode constants: Use string literals directly (e.g., "ANONYMOUS_IP")
+- Distance fields: Changed from float32 to int to match API (distances are in km as integers)
+

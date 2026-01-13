@@ -3,6 +3,7 @@ module github.com/verified-pay/geoip2-minfraud
 go 1.19
 
 require (
+	github.com/joho/godotenv v1.5.1
 	github.com/oschwald/maxminddb-golang v1.10.0
 	github.com/stretchr/testify v1.8.3
 )
