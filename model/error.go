@@ -17,6 +17,6 @@ const (
 type Error struct {
 	// https://dev.maxmind.com/minfraud/api-documentation/responses/#error-body
 
-	Code  MaxmindErrorCode `json:"code"`
-	Error string           `json:"error"`
+	Code  MaxmindErrorCode `json:"code" example:"INSUFFICIENT_FUNDS"`
+	Error string           `json:"error" example:"You do not have sufficient funds to run this query."`
 }

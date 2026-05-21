@@ -24,7 +24,7 @@ const (
 type Warning struct {
 	// https://dev.maxmind.com/minfraud/api-documentation/responses/#schema--response--warning
 
-	Code         MaxmindWarning `json:"code"`
-	InputPointer string         `json:"input_pointer"`
-	Warning      string         `json:"warning"`
+	Code         MaxmindWarning `json:"code" example:"IP_ADDRESS_NOT_FOUND"`
+	InputPointer string         `json:"input_pointer" example:"/billing/country"`
+	Warning      string         `json:"warning" example:"Country not found"`
 }

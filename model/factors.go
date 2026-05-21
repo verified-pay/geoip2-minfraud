@@ -6,11 +6,11 @@ type Factors struct {
 	// https://dev.maxmind.com/minfraud/api-documentation/responses/#factors-body
 
 	Disposition      Disposition `json:"disposition"`
-	FundsRemaining   float32     `json:"funds_remaining"`
-	QueriesRemaining uint64      `json:"queries_remaining"`
-	ID               string      `json:"id"`
+	FundsRemaining   float32     `json:"funds_remaining" example:"15.99"`
+	QueriesRemaining uint64      `json:"queries_remaining" example:"1000"`
+	ID               string      `json:"id" example:"e6e7e9f3-6f5a-4f9a-9b1a-3c2d1e0f4a5b"`
 
-	RiskScore float32 `json:"risk_score"`
+	RiskScore float32 `json:"risk_score" example:"0.01"`
 
 	IPAddress InsightsIPAddress `json:"ip_address"`
 
@@ -40,7 +40,7 @@ type Factors struct {
 type RiskScoreReason struct {
 	// Multiplier is the factor by which the risk score is increased (if > 1)
 	// or decreased (if < 1). Multipliers > 1.5 or < 0.66 are considered significant.
-	Multiplier float32 `json:"multiplier,omitempty"`
+	Multiplier float32 `json:"multiplier,omitempty" example:"1.5"`
 	// Reasons is an array describing the reasons for the multiplier.
 	Reasons []Reason `json:"reasons,omitempty"`
 }
@@ -88,52 +88,52 @@ type RiskScoreReason struct {
 //   - SHIP_ACTIVITY - Riskiness of ship address based on minFraud network activity
 type Reason struct {
 	// Code is a machine-readable code identifying the reason.
-	Code string `json:"code"`
+	Code string `json:"code" example:"EMAIL_DOMAIN"`
 	// Reason is a human-readable explanation of the reason.
-	Reason string `json:"reason"`
+	Reason string `json:"reason" example:"Riskiness of email domain"`
 }
 
 // Subscores contains scores for individual risk factors used to calculate the overall risk score.
 // Deprecated: use RiskScoreReason instead.
 type Subscores struct {
 	// AVSResult is the risk associated with the AVS result (0.01 to 99).
-	AVSResult *float32 `json:"avs_result,omitempty"`
+	AVSResult *float32 `json:"avs_result,omitempty" example:"0.5"`
 	// BillingAddress is the risk associated with the billing address (0.01 to 99).
-	BillingAddress *float32 `json:"billing_address,omitempty"`
+	BillingAddress *float32 `json:"billing_address,omitempty" example:"0.5"`
 	// BillingAddressDistanceToIPLocation is the risk associated with the distance
 	// between billing address and IP location (0.01 to 99).
-	BillingAddressDistanceToIPLocation *float32 `json:"billing_address_distance_to_ip_location,omitempty"`
+	BillingAddressDistanceToIPLocation *float32 `json:"billing_address_distance_to_ip_location,omitempty" example:"0.5"`
 	// Browser is the risk associated with browser attributes (0.01 to 99).
-	Browser *float32 `json:"browser,omitempty"`
+	Browser *float32 `json:"browser,omitempty" example:"0.5"`
 	// Chargeback is individualized risk of chargeback for the IP address (0.01 to 99).
-	Chargeback *float32 `json:"chargeback,omitempty"`
+	Chargeback *float32 `json:"chargeback,omitempty" example:"0.5"`
 	// Country is the risk associated with the country (0.01 to 99).
-	Country *float32 `json:"country,omitempty"`
+	Country *float32 `json:"country,omitempty" example:"0.5"`
 	// CountryMismatch is the risk associated with the combination of IP country,
 	// card issuer country, billing country, and shipping country (0.01 to 99).
-	CountryMismatch *float32 `json:"country_mismatch,omitempty"`
+	CountryMismatch *float32 `json:"country_mismatch,omitempty" example:"0.5"`
 	// CVVResult is the risk associated with the CVV result (0.01 to 99).
-	CVVResult *float32 `json:"cvv_result,omitempty"`
+	CVVResult *float32 `json:"cvv_result,omitempty" example:"0.5"`
 	// Device is the risk associated with the device (0.01 to 99).
-	Device *float32 `json:"device,omitempty"`
+	Device *float32 `json:"device,omitempty" example:"0.5"`
 	// EmailAddress is the risk associated with the email address (0.01 to 99).
-	EmailAddress *float32 `json:"email_address,omitempty"`
+	EmailAddress *float32 `json:"email_address,omitempty" example:"0.5"`
 	// EmailDomain is the general risk associated with the email domain (0.01 to 99).
-	EmailDomain *float32 `json:"email_domain,omitempty"`
+	EmailDomain *float32 `json:"email_domain,omitempty" example:"0.5"`
 	// EmailLocalPart is the risk associated with the email local part (0.01 to 99).
-	EmailLocalPart *float32 `json:"email_local_part,omitempty"`
+	EmailLocalPart *float32 `json:"email_local_part,omitempty" example:"0.5"`
 	// IssuerIDNumber is the risk associated with the IIN given billing location
 	// and usage history (0.01 to 99).
-	IssuerIDNumber *float32 `json:"issuer_id_number,omitempty"`
+	IssuerIDNumber *float32 `json:"issuer_id_number,omitempty" example:"0.5"`
 	// OrderAmount is the risk associated with the order amount (0.01 to 99).
-	OrderAmount *float32 `json:"order_amount,omitempty"`
+	OrderAmount *float32 `json:"order_amount,omitempty" example:"0.5"`
 	// PhoneNumber is the risk associated with the phone number (0.01 to 99).
-	PhoneNumber *float32 `json:"phone_number,omitempty"`
+	PhoneNumber *float32 `json:"phone_number,omitempty" example:"0.5"`
 	// ShippingAddress is the risk associated with the shipping address (0.01 to 99).
-	ShippingAddress *float32 `json:"shipping_address,omitempty"`
+	ShippingAddress *float32 `json:"shipping_address,omitempty" example:"0.5"`
 	// ShippingAddressDistanceToIPLocation is the risk associated with the distance
 	// between shipping address and IP location (0.01 to 99).
-	ShippingAddressDistanceToIPLocation *float32 `json:"shipping_address_distance_to_ip_location,omitempty"`
+	ShippingAddressDistanceToIPLocation *float32 `json:"shipping_address_distance_to_ip_location,omitempty" example:"0.5"`
 	// TimeOfDay is the risk associated with the local time of day (0.01 to 99).
-	TimeOfDay *float32 `json:"time_of_day,omitempty"`
+	TimeOfDay *float32 `json:"time_of_day,omitempty" example:"0.5"`
 }
